@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                         :+:      :+:    :+:   */
+/*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 00:00:00 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/24 00:00:00 by marvin           ###   ########.fr       */
+/*   Created: 2025/10/31 14:26:15 by anpayot           #+#    #+#             */
+/*   Updated: 2025/10/31 14:26:17 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,19 @@ static void	handle_single_philo(t_philo *philo)
 	drop_forks(philo);
 }
 
-void	stagger_start(t_philo *philo)
+static void	stagger_start(t_philo *philo)
 {
 	long	delay;
 
 	delay = 0;
-	if (philo->table->philo_count > 1 && philo->id % 2 == 0)
+	if (philo->table->philo_count == 1)
+		return ;
+	if (philo->table->philo_count % 2 == 0)
+	{
+		if (philo->id % 2 == 0)
+			delay = philo->table->time_to_eat / 2;
+	}
+	else if (philo->id % 2 == 0)
 		delay = philo->table->time_to_eat / 2;
 	if (delay > 0)
 		precise_sleep(delay, philo->table);

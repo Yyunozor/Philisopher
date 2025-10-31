@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/31 14:26:41 by anpayot           #+#    #+#             */
+/*   Updated: 2025/10/31 14:26:47 by anpayot          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 #include <stdio.h>
 
-bool simulation_stopped(t_table *table)
+bool	simulation_stopped(t_table *table)
 {
-	bool    stopped;
+	bool	stopped;
 
 	pthread_mutex_lock(&table->stop_mutex);
 	stopped = table->stop;
@@ -11,14 +23,14 @@ bool simulation_stopped(t_table *table)
 	return (stopped);
 }
 
-void stop_simulation(t_table *table)
+void	stop_simulation(t_table *table)
 {
 	pthread_mutex_lock(&table->stop_mutex);
 	table->stop = true;
 	pthread_mutex_unlock(&table->stop_mutex);
 }
 
-void print_action(t_philo *philo, const char *message)
+void	print_action(t_philo *philo, const char *message)
 {
 	if (simulation_stopped(philo->table))
 		return ;

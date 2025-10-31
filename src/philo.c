@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/31 14:20:51 by anpayot           #+#    #+#             */
+/*   Updated: 2025/10/31 14:27:03 by anpayot          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 #include <unistd.h>
 
-static void take_forks(t_philo *philo)
+static void	take_forks(t_philo *philo)
 {
-	pthread_mutex_t *first;
-	pthread_mutex_t *second;
+	pthread_mutex_t	*first;
+	pthread_mutex_t	*second;
 
 	if (philo->id % 2 == 0)
 	{
@@ -24,7 +36,7 @@ static void take_forks(t_philo *philo)
 	print_action(philo, "has taken a fork");
 }
 
-static void release_forks(t_philo *philo)
+static void	release_forks(t_philo *philo)
 {
 	if (philo->left_fork == philo->right_fork)
 	{
@@ -35,9 +47,9 @@ static void release_forks(t_philo *philo)
 	pthread_mutex_unlock(philo->right_fork);
 }
 
-static void eat(t_philo *philo)
+static void	eat(t_philo *philo)
 {
-	long    start;
+	long	start;
 
 	if (philo->left_fork == philo->right_fork)
 	{
@@ -57,16 +69,16 @@ static void eat(t_philo *philo)
 	release_forks(philo);
 }
 
-static void philo_sleep_and_think(t_philo *philo)
+static void	philo_sleep_and_think(t_philo *philo)
 {
+	long	buffer;
+	long	delay;
+
 	print_action(philo, "is sleeping");
 	precise_sleep(philo->table->time_to_sleep, philo->table);
 	print_action(philo, "is thinking");
 	if (philo->table->philo_count % 2 == 1)
 	{
-		long    buffer;
-		long    delay;
-
 		buffer = philo->table->time_to_die
 			- (philo->table->time_to_eat + philo->table->time_to_sleep);
 		if (buffer > 0)
@@ -79,9 +91,9 @@ static void philo_sleep_and_think(t_philo *philo)
 	}
 }
 
-static void stagger_start(t_philo *philo)
+static void	stagger_start(t_philo *philo)
 {
-	long    delay;
+	long	delay;
 
 	if (philo->table->philo_count == 1)
 		return ;
@@ -97,9 +109,9 @@ static void stagger_start(t_philo *philo)
 		precise_sleep(delay, philo->table);
 }
 
-static void join_philos(t_table *table, int count)
+static void	join_philos(t_table *table, int count)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < count)
@@ -109,9 +121,9 @@ static void join_philos(t_table *table, int count)
 	}
 }
 
-void *philo_routine(void *arg)
+void	*philo_routine(void *arg)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)arg;
 	if (philo->table->philo_count == 1)
@@ -134,9 +146,9 @@ void *philo_routine(void *arg)
 	return (NULL);
 }
 
-int launch_threads(t_table *table)
+int	launch_threads(t_table *table)
 {
-	int i;
+	int	i;
 
 	table->start_time = current_time_ms();
 	i = 0;

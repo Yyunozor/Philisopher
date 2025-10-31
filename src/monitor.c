@@ -1,57 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/31 14:20:30 by anpayot           #+#    #+#             */
+/*   Updated: 2025/10/31 14:20:32 by anpayot          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 #include <stdio.h>
 #include <unistd.h>
 
-static bool all_philos_ate(t_table *table)
+static bool	all_philos_ate(t_table *table)
 {
-	int i;
-	int satisfied;
+	int	index;
+	int	satisfied;
 
 	if (table->meals_required <= 0)
 		return (false);
 	satisfied = 0;
-	i = 0;
-	while (i < table->philo_count)
+	index = 0;
+	while (index < table->philo_count)
 	{
-		pthread_mutex_lock(&table->philos[i].meal_mutex);
-		if (table->philos[i].meals_eaten >= table->meals_required)
+		pthread_mutex_lock(&table->philos[index].meal_mutex);
+		if (table->philos[index].meals_eaten >= table->meals_required)
 			satisfied++;
-		pthread_mutex_unlock(&table->philos[i].meal_mutex);
-		i++;
+		pthread_mutex_unlock(&table->philos[index].meal_mutex);
+		index++;
 	}
 	return (satisfied == table->philo_count);
 }
 
-static bool check_death(t_table *table)
+static bool	report_death(t_table *table, int index)
 {
-	int     i;
-	long    now;
+	pthread_mutex_unlock(&table->philos[index].meal_mutex);
+	pthread_mutex_lock(&table->print_mutex);
+	if (!simulation_stopped(table))
+		printf("%ld %d died\n", elapsed_since(table->start_time),
+			table->philos[index].id);
+	pthread_mutex_unlock(&table->print_mutex);
+	stop_simulation(table);
+	return (true);
+}
+
+static bool	check_death(t_table *table)
+{
+	int		index;
+	long	now;
 
 	now = current_time_ms();
-	i = 0;
-	while (i < table->philo_count)
+	index = 0;
+	while (index < table->philo_count)
 	{
-		pthread_mutex_lock(&table->philos[i].meal_mutex);
-		if (now - table->philos[i].last_meal >= table->time_to_die)
-		{
-			pthread_mutex_unlock(&table->philos[i].meal_mutex);
-			pthread_mutex_lock(&table->print_mutex);
-			if (!simulation_stopped(table))
-				printf("%ld %d died\n", elapsed_since(table->start_time),
-					table->philos[i].id);
-			pthread_mutex_unlock(&table->print_mutex);
-			stop_simulation(table);
-			return (true);
-		}
-		pthread_mutex_unlock(&table->philos[i].meal_mutex);
-		i++;
+		pthread_mutex_lock(&table->philos[index].meal_mutex);
+		if (now - table->philos[index].last_meal >= table->time_to_die)
+			return (report_death(table, index));
+		pthread_mutex_unlock(&table->philos[index].meal_mutex);
+		index++;
 	}
 	return (false);
 }
 
-void *monitor_routine(void *arg)
+void	*monitor_routine(void *arg)
 {
-	t_table *table;
+	t_table	*table;
 
 	table = (t_table *)arg;
 	while (!simulation_stopped(table))

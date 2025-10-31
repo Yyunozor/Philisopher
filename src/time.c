@@ -1,25 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   time.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/31 14:26:03 by anpayot           #+#    #+#             */
+/*   Updated: 2025/10/31 14:26:06 by anpayot          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 #include <sys/time.h>
 #include <unistd.h>
 
-long current_time_ms(void)
+long	current_time_ms(void)
 {
-	struct timeval  tv;
+	struct timeval		v;
 
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000L) + (tv.tv_usec / 1000L));
+	gettimeofday(&v, NULL);
+	return ((v.tv_sec * 1000L) + (v.tv_usec / 1000L));
 }
 
-long elapsed_since(long start)
+long	elapsed_since(long start)
 {
 	return (current_time_ms() - start);
 }
 
-void precise_sleep(long duration_ms, t_table *table)
+static void	sleep_chunk(long remaining)
 {
-	long start;
-	long elapsed;
-	long remaining;
+	if (remaining > 5)
+		usleep(1000);
+	else
+		usleep(100);
+}
+
+void	precise_sleep(long duration_ms, t_table *table)
+{
+	long	start;
+	long	elapsed;
+	long	remaining;
 
 	start = current_time_ms();
 	while (!simulation_stopped(table))
@@ -28,9 +48,6 @@ void precise_sleep(long duration_ms, t_table *table)
 		if (elapsed >= duration_ms)
 			break ;
 		remaining = duration_ms - elapsed;
-		if (remaining > 5)
-			usleep(1000);
-		else
-			usleep(100);
+		sleep_chunk(remaining);
 	}
 }

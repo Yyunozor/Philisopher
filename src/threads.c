@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   threads.c                                         :+:      :+:    :+:   */
+/*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 00:00:00 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/24 00:00:00 by marvin           ###   ########.fr       */
+/*   Created: 2025/10/31 14:26:09 by anpayot           #+#    #+#             */
+/*   Updated: 2025/10/31 14:26:11 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	join_created(t_table *table, int count)
 	}
 }
 
-int		launch_threads(t_table *table)
+int	launch_threads(t_table *table)
 {
 	int	index;
 
@@ -36,7 +36,7 @@ int		launch_threads(t_table *table)
 		table->philos[index].last_meal = table->start_time;
 		pthread_mutex_unlock(&table->philos[index].meal_mutex);
 		if (pthread_create(&table->philos[index].thread, NULL, philo_routine,
-			&table->philos[index]) != 0)
+				&table->philos[index]) != 0)
 		{
 			stop_simulation(table);
 			join_created(table, index);
