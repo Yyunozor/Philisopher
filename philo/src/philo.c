@@ -56,39 +56,6 @@ static void philo_sleep_and_think(t_philo *philo)
     print_action(philo, "is sleeping");
     precise_sleep(philo->table->time_to_sleep, philo->table);
     print_action(philo, "is thinking");
-    if (philo->table->philo_count % 2 == 1)
-    {
-        long    buffer;
-        long    delay;
-
-        buffer = philo->table->time_to_die
-            - (philo->table->time_to_eat + philo->table->time_to_sleep);
-        if (buffer > 0)
-        {
-            delay = buffer / 2;
-            if (delay <= 0)
-                delay = 1;
-            precise_sleep(delay, philo->table);
-        }
-    }
-}
-
-static void stagger_start(t_philo *philo)
-{
-    long    delay;
-
-    if (philo->table->philo_count == 1)
-        return ;
-    delay = 0;
-    if (philo->table->philo_count % 2 == 0)
-    {
-        if (philo->id % 2 == 0)
-            delay = philo->table->time_to_eat / 2;
-    }
-    else if (philo->id % 2 == 0)
-        delay = philo->table->time_to_eat / 2;
-    if (delay > 0)
-        precise_sleep(delay, philo->table);
 }
 
 static void join_philos(t_table *table, int count)
@@ -116,7 +83,8 @@ void *philo_routine(void *arg)
             pthread_mutex_unlock(philo->left_fork);
         return (NULL);
     }
-    stagger_start(philo);
+    if (philo->id % 2 == 0)
+        precise_sleep(1, philo->table);
     while (!simulation_stopped(philo->table))
     {
         take_forks(philo);
