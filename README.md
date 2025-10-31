@@ -5,6 +5,7 @@ Implementation of the 42 `philosophers` project. The goal is to provide a minima
 ## Build
 
 ```sh
+cd philo
 make
 ```
 

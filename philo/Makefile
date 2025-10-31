@@ -1,9 +1,5 @@
 NAME := philo
 
-CC := cc
-CFLAGS := -Wall -Wextra -Werror -pthread
-INCLUDES := -Iinclude
-
 SRCS := \
     src/main.c \
     src/parse.c \
@@ -14,19 +10,16 @@ SRCS := \
     src/monitor.c
 
 OBJS := $(SRCS:.c=.o)
-DEPS := $(SRCS:.c=.d)
+DEPS := $(OBJS:.o=.d)
 
-.PHONY: all clean fclean re
+CC := cc
+CFLAGS := -Wall -Wextra -Werror -pthread
+CPPFLAGS := -MMD -MP -Iinclude
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-
--include $(DEPS)
-
-%.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
+	$(CC) $(CFLAGS) $(OBJS) -o $@
 
 clean:
 	rm -f $(OBJS) $(DEPS)
@@ -35,3 +28,7 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+-include $(DEPS)
+
+.PHONY: all clean fclean re
