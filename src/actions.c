@@ -48,26 +48,17 @@ void	drop_forks(t_philo *philo)
 
 void	philo_eat(t_philo *philo)
 {
-	long	start;
-
 	if (philo->left_fork == philo->right_fork)
 	{
 		precise_sleep(philo->table->time_to_die, philo->table);
 		return ;
 	}
 	pthread_mutex_lock(&philo->meal_mutex);
-	start = current_time_ms();
-	philo->last_meal = start;
+	philo->last_meal = current_time_ms();
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->meal_mutex);
 	print_action(philo, "is eating");
 	precise_sleep(philo->table->time_to_eat, philo->table);
-	if (!simulation_stopped(philo->table))
-	{
-		pthread_mutex_lock(&philo->meal_mutex);
-		philo->last_meal = start + philo->table->time_to_eat;
-		pthread_mutex_unlock(&philo->meal_mutex);
-	}
 	drop_forks(philo);
 }
 
