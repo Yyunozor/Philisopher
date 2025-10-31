@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anpayot <anpayot@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 14:18:59 by anpayot           #+#    #+#             */
 /*   Updated: 2025/10/31 16:49:09 by anpayot          ###   ########.fr       */
