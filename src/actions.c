@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gpt-5-codex <gpt-5-c@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 00:00:00 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/24 00:00:00 by marvin           ###   ########.fr       */
+/*   Created: 2024/07/24 00:00:00 by gpt-5-cod         #+#    #+#             */
+/*   Updated: 2024/07/24 00:00:00 by gpt-5-cod        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	philo_eat(t_philo *philo)
 		precise_sleep(philo->table->time_to_die, philo->table);
 		return ;
 	}
-	pthread_mutex_lock(&philo->meal_mutex);
 	start = current_time_ms();
+	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = start;
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->meal_mutex);
@@ -76,13 +76,16 @@ void	philo_sleep_and_think(t_philo *philo)
 	print_action(philo, "is sleeping");
 	precise_sleep(philo->table->time_to_sleep, philo->table);
 	print_action(philo, "is thinking");
-	buffer = philo->table->time_to_die
-		- (philo->table->time_to_eat + philo->table->time_to_sleep);
-	if (buffer > 0)
+	if (philo->table->philo_count % 2 == 1)
 	{
-		delay = buffer / 2;
-		if (delay <= 0)
-			delay = 1;
-		precise_sleep(delay, philo->table);
+		buffer = philo->table->time_to_die
+			- (philo->table->time_to_eat + philo->table->time_to_sleep);
+		if (buffer > 0)
+		{
+			delay = buffer / 2;
+			if (delay <= 0)
+				delay = 1;
+			precise_sleep(delay, philo->table);
+		}
 	}
 }

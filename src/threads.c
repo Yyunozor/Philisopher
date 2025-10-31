@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gpt-5-codex <gpt-5-c@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 00:00:00 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/24 00:00:00 by marvin           ###   ########.fr       */
+/*   Created: 2024/07/24 00:00:00 by gpt-5-cod         #+#    #+#             */
+/*   Updated: 2024/07/24 00:00:00 by gpt-5-cod        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	join_created(t_table *table, int count)
 	}
 }
 
-int		launch_threads(t_table *table)
+int	launch_threads(t_table *table)
 {
 	int	index;
 
@@ -35,8 +35,8 @@ int		launch_threads(t_table *table)
 		pthread_mutex_lock(&table->philos[index].meal_mutex);
 		table->philos[index].last_meal = table->start_time;
 		pthread_mutex_unlock(&table->philos[index].meal_mutex);
-		if (pthread_create(&table->philos[index].thread, NULL, philo_routine,
-			&table->philos[index]) != 0)
+		if (pthread_create(&table->philos[index].thread, NULL,
+			philo_routine, &table->philos[index]) != 0)
 		{
 			stop_simulation(table);
 			join_created(table, index);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gpt-5-codex <gpt-5-c@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 00:00:00 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/24 00:00:00 by marvin           ###   ########.fr       */
+/*   Created: 2024/07/24 00:00:00 by gpt-5-cod         #+#    #+#             */
+/*   Updated: 2024/07/24 00:00:00 by gpt-5-cod        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,15 @@ void	stagger_start(t_philo *philo)
 {
 	long	delay;
 
+	if (philo->table->philo_count == 1)
+		return ;
 	delay = 0;
-	if (philo->table->philo_count > 1 && philo->id % 2 == 0)
+	if (philo->table->philo_count % 2 == 0)
+	{
+		if (philo->id % 2 == 0)
+			delay = philo->table->time_to_eat / 2;
+	}
+	else if (philo->id % 2 == 0)
 		delay = philo->table->time_to_eat / 2;
 	if (delay > 0)
 		precise_sleep(delay, philo->table);

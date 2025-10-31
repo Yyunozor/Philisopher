@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gpt-5-codex <gpt-5-c@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/24 00:00:00 by gpt-5-cod         #+#    #+#             */
+/*   Updated: 2024/07/24 00:00:00 by gpt-5-cod        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
-#include <stdlib.h>
 #include <stdio.h>
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_table table;
+	t_table	table;
 
 	if (parse_arguments(&table, argc, argv) != 0)
 	{

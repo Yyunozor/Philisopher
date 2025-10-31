@@ -5,13 +5,15 @@ CFLAGS := -Wall -Wextra -Werror -pthread
 INCLUDES := -Iinclude
 
 SRCS := \
-    src/main.c \
-    src/parse.c \
-    src/init.c \
-    src/time.c \
-    src/utils.c \
-    src/philo.c \
-    src/monitor.c
+	src/main.c \
+	src/parse.c \
+	src/init.c \
+	src/time.c \
+	src/utils.c \
+	src/actions.c \
+	src/routine.c \
+	src/threads.c \
+	src/monitor.c
 
 OBJS := $(SRCS:.c=.o)
 
