@@ -42,6 +42,9 @@ typedef struct s_table
 	bool			stop;
 	pthread_mutex_t	stop_mutex;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	seat_mutex;
+	int			available_seats;
+	int			seat_capacity;
 	pthread_t		monitor;
 	t_philo			*philos;
 }	t_table;

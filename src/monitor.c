@@ -55,7 +55,7 @@ static bool	check_death(t_table *table)
 	while (index < table->philo_count)
 	{
 		pthread_mutex_lock(&table->philos[index].meal_mutex);
-		if (now - table->philos[index].last_meal >= table->time_to_die)
+		if (now - table->philos[index].last_meal > table->time_to_die)
 			return (report_death(table, index));
 		pthread_mutex_unlock(&table->philos[index].meal_mutex);
 		index++;
