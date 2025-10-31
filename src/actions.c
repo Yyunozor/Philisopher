@@ -42,8 +42,8 @@ void	drop_forks(t_philo *philo)
 		pthread_mutex_unlock(philo->left_fork);
 		return ;
 	}
-	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
 }
 
 void	philo_eat(t_philo *philo)
@@ -62,15 +62,24 @@ void	philo_eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->meal_mutex);
 	print_action(philo, "is eating");
 	precise_sleep(philo->table->time_to_eat, philo->table);
-	pthread_mutex_lock(&philo->meal_mutex);
-	philo->last_meal = start + philo->table->time_to_eat;
-	pthread_mutex_unlock(&philo->meal_mutex);
 	drop_forks(philo);
 }
 
 void	philo_sleep_and_think(t_philo *philo)
 {
+	long	extra;
+
 	print_action(philo, "is sleeping");
 	precise_sleep(philo->table->time_to_sleep, philo->table);
+	extra = 0;
+	if (philo->table->philo_count % 2 == 1)
+	{
+		extra = philo->table->time_to_eat - philo->table->time_to_sleep;
+		if (extra < 0)
+			extra = 0;
+		extra += philo->table->time_to_eat / 2;
+	}
+	if (extra > 0)
+		precise_sleep(extra, philo->table);
 	print_action(philo, "is thinking");
 }

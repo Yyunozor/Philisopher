@@ -23,6 +23,12 @@ static int	init_global_mutexes(t_table *table)
 		pthread_mutex_destroy(&table->stop_mutex);
 		return (1);
 	}
+	if (pthread_mutex_init(&table->seat_mutex, NULL) != 0)
+	{
+		pthread_mutex_destroy(&table->print_mutex);
+		pthread_mutex_destroy(&table->stop_mutex);
+		return (1);
+	}
 	return (0);
 }
 
@@ -40,12 +46,20 @@ int	init_table(t_table *table)
 	}
 	if (setup_philosophers(table) != 0)
 	{
+		pthread_mutex_destroy(&table->seat_mutex);
 		pthread_mutex_destroy(&table->print_mutex);
 		pthread_mutex_destroy(&table->stop_mutex);
 		free(table->philos);
 		table->philos = NULL;
 		return (1);
 	}
+	if (table->philo_count % 2 == 0)
+		table->seat_capacity = table->philo_count;
+	else
+		table->seat_capacity = table->philo_count / 2;
+	if (table->seat_capacity <= 0)
+		table->seat_capacity = 1;
+	table->available_seats = table->seat_capacity;
 	return (0);
 }
 
@@ -62,6 +76,7 @@ void	destroy_table(t_table *table)
 		pthread_mutex_destroy(&table->philos[index].meal_mutex);
 		index++;
 	}
+	pthread_mutex_destroy(&table->seat_mutex);
 	pthread_mutex_destroy(&table->stop_mutex);
 	pthread_mutex_destroy(&table->print_mutex);
 	free(table->philos);
