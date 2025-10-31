@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: anpayot <anpayot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 14:00:00 by yyunozor          #+#    #+#             */
-/*   Updated: 2025/10/31 14:58:50 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/10/31 16:38:42 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ typedef struct s_table
 	pthread_mutex_t	stop_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	seat_mutex;
-	int			available_seats;
-	int			seat_capacity;
+	int				available_seats;
+	int				seat_capacity;
 	pthread_t		monitor;
 	t_philo			*philos;
 }	t_table;

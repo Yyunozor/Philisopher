@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: anpayot <anpayot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 14:20:30 by anpayot           #+#    #+#             */
-/*   Updated: 2025/10/31 15:01:09 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/10/31 16:46:49 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	*monitor_routine(void *arg)
 			stop_simulation(table);
 			break ;
 		}
-		usleep(500);
+		usleep(100);
 	}
 	return (NULL);
 }

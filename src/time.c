@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: anpayot <anpayot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 14:26:03 by anpayot           #+#    #+#             */
-/*   Updated: 2025/10/31 14:26:06 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/10/31 16:46:49 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ long	elapsed_since(long start)
 
 static void	sleep_chunk(long remaining)
 {
-	if (remaining > 5)
-		usleep(1000);
-	else
+	if (remaining > 10)
+		usleep(500);
+	else if (remaining > 3)
 		usleep(100);
+	else
+		usleep(50);
 }
 
 void	precise_sleep(long duration_ms, t_table *table)

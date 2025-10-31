@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: anpayot <anpayot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 14:18:59 by anpayot           #+#    #+#             */
-/*   Updated: 2025/10/31 14:59:35 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/10/31 16:49:09 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,17 @@ static int	init_global_mutexes(t_table *table)
 	return (0);
 }
 
+static void	init_seat_capacity(t_table *table)
+{
+	if (table->philo_count % 2 == 0)
+		table->seat_capacity = table->philo_count;
+	else
+		table->seat_capacity = table->philo_count / 2;
+	if (table->seat_capacity <= 0)
+		table->seat_capacity = 1;
+	table->available_seats = table->seat_capacity;
+}
+
 int	init_table(t_table *table)
 {
 	table->philos = malloc(table->philo_count * sizeof(t_philo));
@@ -53,13 +64,7 @@ int	init_table(t_table *table)
 		table->philos = NULL;
 		return (1);
 	}
-	if (table->philo_count % 2 == 0)
-		table->seat_capacity = table->philo_count;
-	else
-		table->seat_capacity = table->philo_count / 2;
-	if (table->seat_capacity <= 0)
-		table->seat_capacity = 1;
-	table->available_seats = table->seat_capacity;
+	init_seat_capacity(table);
 	return (0);
 }
 

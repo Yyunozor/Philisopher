@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: anpayot <anpayot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 14:26:41 by anpayot           #+#    #+#             */
-/*   Updated: 2025/10/31 14:26:47 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/10/31 16:46:49 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void	stop_simulation(t_table *table)
 
 void	print_action(t_philo *philo, const char *message)
 {
-	if (simulation_stopped(philo->table))
-		return ;
 	pthread_mutex_lock(&philo->table->print_mutex);
 	if (!simulation_stopped(philo->table))
 		printf("%ld %d %s\n", elapsed_since(philo->table->start_time),
