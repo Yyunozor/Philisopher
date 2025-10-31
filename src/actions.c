@@ -62,9 +62,12 @@ void	philo_eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->meal_mutex);
 	print_action(philo, "is eating");
 	precise_sleep(philo->table->time_to_eat, philo->table);
-	pthread_mutex_lock(&philo->meal_mutex);
-	philo->last_meal = start + philo->table->time_to_eat;
-	pthread_mutex_unlock(&philo->meal_mutex);
+	if (!simulation_stopped(philo->table))
+	{
+		pthread_mutex_lock(&philo->meal_mutex);
+		philo->last_meal = start + philo->table->time_to_eat;
+		pthread_mutex_unlock(&philo->meal_mutex);
+	}
 	drop_forks(philo);
 }
 
