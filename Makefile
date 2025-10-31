@@ -14,7 +14,6 @@ SRCS := \
     src/monitor.c
 
 OBJS := $(SRCS:.c=.o)
-DEPS := $(SRCS:.c=.d)
 
 .PHONY: all clean fclean re
 
@@ -23,13 +22,11 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
--include $(DEPS)
-
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(DEPS)
+	rm -f $(OBJS)
 
 fclean: clean
 	rm -f $(NAME)
