@@ -6,7 +6,7 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 14:26:09 by anpayot           #+#    #+#             */
-/*   Updated: 2025/10/31 14:26:11 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/10/31 14:59:35 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,27 @@ static void	join_created(t_table *table, int count)
 	}
 }
 
-int	launch_threads(t_table *table)
+static int	create_philo_thread(t_table *table, int index)
+{
+	t_philo	*current;
+
+	current = &table->philos[index];
+	pthread_mutex_lock(&current->meal_mutex);
+	current->last_meal = table->start_time;
+	pthread_mutex_unlock(&current->meal_mutex);
+	if (pthread_create(&current->thread, NULL, philo_routine, current) != 0)
+		return (1);
+	return (0);
+}
+
+static int	create_philosophers(t_table *table)
 {
 	int	index;
 
-	table->start_time = current_time_ms();
 	index = 0;
 	while (index < table->philo_count)
 	{
-		pthread_mutex_lock(&table->philos[index].meal_mutex);
-		table->philos[index].last_meal = table->start_time;
-		pthread_mutex_unlock(&table->philos[index].meal_mutex);
-		if (pthread_create(&table->philos[index].thread, NULL, philo_routine,
-				&table->philos[index]) != 0)
+		if (create_philo_thread(table, index) != 0)
 		{
 			stop_simulation(table);
 			join_created(table, index);
@@ -44,12 +52,27 @@ int	launch_threads(t_table *table)
 		}
 		index++;
 	}
+	return (0);
+}
+
+static int	create_monitor(t_table *table)
+{
 	if (pthread_create(&table->monitor, NULL, monitor_routine, table) != 0)
 	{
 		stop_simulation(table);
 		join_created(table, table->philo_count);
 		return (1);
 	}
+	return (0);
+}
+
+int	launch_threads(t_table *table)
+{
+	table->start_time = current_time_ms();
+	if (create_philosophers(table) != 0)
+		return (1);
+	if (create_monitor(table) != 0)
+		return (1);
 	join_created(table, table->philo_count);
 	pthread_join(table->monitor, NULL);
 	return (0);

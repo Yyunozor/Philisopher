@@ -6,7 +6,7 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 14:20:30 by anpayot           #+#    #+#             */
-/*   Updated: 2025/10/31 14:20:32 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/10/31 15:01:09 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,10 @@ static bool	report_death(t_table *table, int index)
 {
 	pthread_mutex_unlock(&table->philos[index].meal_mutex);
 	pthread_mutex_lock(&table->print_mutex);
-	if (!simulation_stopped(table))
-		printf("%ld %d died\n", elapsed_since(table->start_time),
-			table->philos[index].id);
-	pthread_mutex_unlock(&table->print_mutex);
 	stop_simulation(table);
+	printf("%ld %d died\n", elapsed_since(table->start_time),
+		table->philos[index].id);
+	pthread_mutex_unlock(&table->print_mutex);
 	return (true);
 }
 

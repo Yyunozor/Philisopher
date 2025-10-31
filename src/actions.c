@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                         :+:      :+:    :+:   */
+/*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyunozor <yyunozor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/31 14:11:00 by yyunozor          #+#    #+#             */
-/*   Updated: 2025/10/31 14:11:00 by yyunozor         ###   ########.fr       */
+/*   Created: 2025/10/31 15:03:51 by anpayot           #+#    #+#             */
+/*   Updated: 2025/10/31 15:07:06 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,7 @@ void	philo_eat(t_philo *philo)
 
 void	philo_sleep_and_think(t_philo *philo)
 {
-	long	buffer;
-	long	delay;
-
 	print_action(philo, "is sleeping");
 	precise_sleep(philo->table->time_to_sleep, philo->table);
 	print_action(philo, "is thinking");
-	if (philo->table->philo_count % 2 == 1)
-	{
-		buffer = philo->table->time_to_die
-			- (philo->table->time_to_eat + philo->table->time_to_sleep);
-		if (buffer > 0)
-		{
-			delay = buffer / 2;
-			if (delay <= 0)
-				delay = 1;
-			precise_sleep(delay, philo->table);
-		}
-	}
 }

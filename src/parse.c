@@ -6,12 +6,11 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 14:20:23 by anpayot           #+#    #+#             */
-/*   Updated: 2025/10/31 14:20:26 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/10/31 14:59:35 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <ctype.h>
 #include <limits.h>
 
 static int	parse_number(const char *str, long *out)
@@ -24,7 +23,7 @@ static int	parse_number(const char *str, long *out)
 	result = 0;
 	while (*str != '\0')
 	{
-		if (!isdigit((unsigned char)*str))
+		if (*str < '0' || *str > '9')
 			return (1);
 		digit = *str - '0';
 		if (result > INT_MAX / 10
