@@ -56,15 +56,6 @@ static void philo_sleep_and_think(t_philo *philo)
     print_action(philo, "is sleeping");
     precise_sleep(philo->table->time_to_sleep, philo->table);
     print_action(philo, "is thinking");
-    if (philo->table->philo_count % 2 == 1)
-    {
-        long    think_delay;
-
-        think_delay = philo->table->time_to_eat - philo->table->time_to_sleep;
-        if (think_delay < 0)
-            think_delay = 0;
-        precise_sleep(think_delay + philo->table->time_to_eat, philo->table);
-    }
 }
 
 static void join_philos(t_table *table, int count)
@@ -93,14 +84,7 @@ void *philo_routine(void *arg)
         return (NULL);
     }
     if (philo->id % 2 == 0)
-    {
-        long    delay;
-
-        delay = philo->table->time_to_eat / 2;
-        if (delay <= 0)
-            delay = 1;
-        precise_sleep(delay, philo->table);
-    }
+        precise_sleep(1, philo->table);
     while (!simulation_stopped(philo->table))
     {
         take_forks(philo);
